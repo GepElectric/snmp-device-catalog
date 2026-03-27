@@ -1,12 +1,5 @@
 [
   {
-    "slug": "siemens-s7-1513",
-    "vendor": "Siemens",
-    "model": "S7-1513",
-    "description": "Siemens S7-1513",
-    "updated": "2026-03-26"
-  },
-  {
     "slug": "advantech-eki-7780g",
     "vendor": "Advantech",
     "model": "EKI-7780G",
