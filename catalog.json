@@ -5,12 +5,5 @@
     "model": "EKI-7780G",
     "description": "Advantech EKI-7780G",
     "updated": "2026-03-26"
-  },
-  {
-    "slug": "hopf",
-    "vendor": "",
-    "model": "",
-    "description": "Hopf 6890",
-    "updated": "2026-03-26"
   }
 ]
