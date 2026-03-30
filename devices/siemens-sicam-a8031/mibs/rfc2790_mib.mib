@@ -1,0 +1,366 @@
+-- RFC 2790:  Host Resources MIB   
+
+   HOST-RESOURCES-MIB DEFINITIONS ::= BEGIN
+
+   IMPORTS
+   MODULE-IDENTITY, OBJECT-TYPE, mib-2, 
+   Integer32, TimeTicks , OBJECT-IDENTITY  FROM SNMPv2-SMI
+
+   TEXTUAL-CONVENTION, DisplayString, 
+   DateAndTime, AutonomousType             FROM SNMPv2-TC
+   
+   OBJECT-GROUP                            FROM SNMPv2-CONF;
+
+    hostResourcesMibModule MODULE-IDENTITY
+      LAST-UPDATED "200003060000Z"    -- 6 March 2000
+      ORGANIZATION "IETF Host Resources MIB Working Group"
+      CONTACT-INFO
+          "Steve Waldbusser
+          Postal: Lucent Technologies, Inc.
+                  1213 Innsbruck Dr.
+                  Sunnyvale, CA 94089
+                  USA
+          Phone:  650-318-1251
+          Fax:    650-318-1633
+          Email:  waldbusser@lucent.com
+
+          In addition, the Host Resources MIB mailing list is
+          dedicated to discussion of this MIB. To join the
+          mailing list, send a request message to
+          hostmib-request@andrew.cmu.edu. The mailing list
+          address is hostmib@andrew.cmu.edu."
+
+      DESCRIPTION
+          "This MIB is for use in managing host systems. The term
+          `host' is construed to mean any computer that communicates
+          with other similar computers attached to the internet and
+          that is directly used by one or more human beings. Although
+          this MIB does not necessarily apply to devices whose primary
+          function is communications services (e.g., terminal servers,
+          routers, bridges, monitoring equipment), such relevance is
+          not explicitly precluded.  This MIB instruments attributes
+          common to all internet hosts including, for example, both
+          personal computers and systems that run variants of Unix."
+
+      REVISION "200003060000Z"        -- 6 March 2000
+      DESCRIPTION
+          "Clarifications and bug fixes based on implementation
+          experience.  This revision was also reformatted in the SMIv2
+          format. The revisions made were:
+
+          New RFC document standards:
+             Added Copyright notice, updated introduction to SNMP
+             Framework, updated references section, added reference to
+             RFC 2119, and added a meaningful Security Considerations
+             section.
+
+          New IANA considerations section for registration of new types
+
+          Conversion to new SMIv2 syntax for the following types and
+          macros:
+              Counter32, Integer32, Gauge32, MODULE-IDENTITY,
+              OBJECT-TYPE, TEXTUAL-CONVENTION, OBJECT-IDENTITY,
+              MODULE-COMPLIANCE, OBJECT-GROUP
+
+          Used new Textual Conventions:
+              TruthValue, DateAndTime, AutonomousType,
+              InterfaceIndexOrZero
+
+          Fixed typo in hrPrinterStatus.
+
+          Added missing error bits to hrPrinterDetectedErrorState and
+          clarified confusion resulting from suggested mappings to
+          hrPrinterStatus
+		  
+          Clarified that size of objects of type
+          InternationalDisplayString is number of octets, not number
+          of encoded symbols.
+
+          Clarified the use of the following objects based on
+          implementation experience:
+              hrSystemInitialLoadDevice, hrSystemInitialLoadParameters,
+              hrMemorySize, hrStorageSize, hrStorageAllocationFailures,
+              hrDeviceErrors, hrProcessorLoad, hrNetworkIfIndex,
+              hrDiskStorageCapacity, hrSWRunStatus, hrSWRunPerfCPU,
+              and hrSWInstalledDate.
+
+          Clarified implementation technique for hrSWInstalledTable.
+
+          Used new AUGMENTS clause for hrSWRunPerfTable.
+
+          Added Internationalization Considerations section.
+
+   This revision published as RFC2790."
+
+      REVISION "9910202200Z"    -- 20 October, 1999
+      DESCRIPTION
+          "The original version of this MIB, published as
+          RFC1514."
+      ::= { hrMIBAdminInfo 1 }  
+   
+   host     OBJECT IDENTIFIER ::= { mib-2 25 }
+
+   hrSystem        OBJECT IDENTIFIER ::= { host 1 }
+   hrStorage       OBJECT IDENTIFIER ::= { host 2 }
+   hrMIBAdminInfo  OBJECT IDENTIFIER ::= { host 7 }
+   
+   -- textual conventions
+
+   KBytes ::= TEXTUAL-CONVENTION
+       STATUS current
+       DESCRIPTION
+           "Storage size, expressed in units of 1024 bytes."
+       SYNTAX Integer32 (0..2147483647)
+
+
+   -- The Host Resources System Group
+
+   hrSystemUptime OBJECT-TYPE
+       SYNTAX     TimeTicks
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "The amount of time since this host was last
+           initialized.  Note that this is different from
+           sysUpTime in the SNMPv2-MIB [RFC1907] because
+           sysUpTime is the uptime of the network management
+           portion of the system."
+       ::= { hrSystem 1 }
+
+   hrSystemDate OBJECT-TYPE
+       SYNTAX     DateAndTime
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "The host's notion of the local date and time of day."
+       ::= { hrSystem 2 }
+
+   -- The Host Resources Storage Group
+
+   -- Registration point for storage types, for use with hrStorageType.
+   -- These are defined in the HOST-RESOURCES-TYPES module.
+   hrStorageTypes          OBJECT IDENTIFIER ::= { hrStorage 1 }
+ 
+   hrStorageOther OBJECT-IDENTITY
+       STATUS current
+       DESCRIPTION
+           "The storage type identifier used when no other defined
+           type is appropriate."
+       ::= { hrStorageTypes 1 }
+
+   hrStorageRam OBJECT-IDENTITY
+       STATUS current
+       DESCRIPTION
+           "The storage type identifier used for RAM."
+       ::= { hrStorageTypes 2 }
+	   
+   hrStorageVirtualMemory OBJECT-IDENTITY
+       STATUS current
+       DESCRIPTION
+           "The storage type identifier used for virtual memory,
+           temporary storage of swapped or paged memory."
+       ::= { hrStorageTypes 3 }
+
+   hrStorageFixedDisk OBJECT-IDENTITY
+       STATUS current
+       DESCRIPTION
+           "The storage type identifier used for non-removable
+           rigid rotating magnetic storage devices."
+       ::= { hrStorageTypes 4 }
+
+   hrStorageRemovableDisk OBJECT-IDENTITY
+       STATUS current
+       DESCRIPTION
+           "The storage type identifier used for removable rigid
+           rotating magnetic storage devices."
+       ::= { hrStorageTypes 5 }
+
+   hrStorageFloppyDisk OBJECT-IDENTITY
+       STATUS current
+       DESCRIPTION
+           "The storage type identifier used for non-rigid rotating
+           magnetic storage devices."
+       ::= { hrStorageTypes 6 }
+
+   hrStorageCompactDisc OBJECT-IDENTITY
+       STATUS current
+       DESCRIPTION
+           "The storage type identifier used for read-only rotating
+           optical storage devices."
+       ::= { hrStorageTypes 7 }
+
+   hrStorageRamDisk OBJECT-IDENTITY
+       STATUS current
+       DESCRIPTION
+           "The storage type identifier used for a file system that
+           is stored in RAM."
+       ::= { hrStorageTypes 8 }
+
+   hrStorageFlashMemory OBJECT-IDENTITY
+       STATUS current
+       DESCRIPTION
+           "The storage type identifier used for flash memory."
+       ::= { hrStorageTypes 9 }
+
+   hrStorageNetworkDisk OBJECT-IDENTITY
+       STATUS current
+       DESCRIPTION
+           "The storage type identifier used for a
+           networked file system."
+       ::= { hrStorageTypes 10 }
+ 
+   hrMemorySize OBJECT-TYPE
+       SYNTAX     KBytes
+       UNITS      "KBytes"
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "The amount of physical read-write main memory,
+           typically RAM, contained by the host."
+       ::= { hrStorage 2 }
+	   
+   hrStorageTable OBJECT-TYPE
+       SYNTAX     SEQUENCE OF HrStorageEntry
+       MAX-ACCESS not-accessible
+       STATUS     current
+       DESCRIPTION
+           "The (conceptual) table of logical storage areas on
+           the host.
+
+           An entry shall be placed in the storage table for each
+           logical area of storage that is allocated and has
+           fixed resource limits.  The amount of storage
+           represented in an entity is the amount actually usable
+           by the requesting entity, and excludes loss due to
+           formatting or file system reference information.
+
+           These entries are associated with logical storage
+           areas, as might be seen by an application, rather than
+           physical storage entities which are typically seen by
+           an operating system.  Storage such as tapes and
+           floppies without file systems on them are typically
+           not allocated in chunks by the operating system to
+           requesting applications, and therefore shouldn't
+           appear in this table.  Examples of valid storage for
+           this table include disk partitions, file systems, ram
+           (for some architectures this is further segmented into
+           regular memory, extended memory, and so on), backing
+           store for virtual memory (`swap space').
+
+           This table is intended to be a useful diagnostic for
+           `out of memory' and `out of buffers' types of
+           failures.  In addition, it can be a useful performance
+           monitoring tool for tracking memory, disk, or buffer
+           usage."
+       ::= { hrStorage 3 }
+
+   hrStorageEntry OBJECT-TYPE
+       SYNTAX     HrStorageEntry
+       MAX-ACCESS not-accessible
+       STATUS     current
+       DESCRIPTION
+           "A (conceptual) entry for one logical storage area on
+           the host.  As an example, an instance of the
+           hrStorageType object might be named hrStorageType.3"
+       INDEX { hrStorageIndex }
+       ::= { hrStorageTable 1 }
+
+   HrStorageEntry ::= SEQUENCE {
+           hrStorageIndex               Integer32,
+           hrStorageType                AutonomousType,
+           hrStorageDescr               DisplayString,
+           hrStorageAllocationUnits     Integer32,		   
+           hrStorageSize                Integer32,
+           hrStorageUsed                Integer32
+       }
+
+   hrStorageIndex OBJECT-TYPE
+       SYNTAX     Integer32 (1..2147483647)
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "A unique value for each logical storage area
+           contained by the host."
+       ::= { hrStorageEntry 1 }
+
+   hrStorageType OBJECT-TYPE
+       SYNTAX     AutonomousType
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "The type of storage represented by this entry."
+       ::= { hrStorageEntry 2 }
+
+   hrStorageDescr OBJECT-TYPE
+       SYNTAX     DisplayString
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "A description of the type and instance of the storage
+           described by this entry."
+       ::= { hrStorageEntry 3 }
+	   
+   hrStorageAllocationUnits OBJECT-TYPE
+       SYNTAX     Integer32 (1..2147483647)
+       UNITS      "Bytes"
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "The size, in bytes, of the data objects allocated
+           from this pool.  If this entry is monitoring sectors,
+           blocks, buffers, or packets, for example, this number
+           will commonly be greater than one.  Otherwise this
+           number will typically be one."
+       ::= { hrStorageEntry 4 }	   
+
+   hrStorageSize OBJECT-TYPE
+       SYNTAX     Integer32 (0..2147483647)
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "The size of the storage represented by this entry, in
+           units of hrStorageAllocationUnits. This object is
+           writable to allow remote configuration of the size of
+           the storage area in those cases where such an
+           operation makes sense and is possible on the
+           underlying system. For example, the amount of main
+           memory allocated to a buffer pool might be modified or
+           the amount of disk space allocated to virtual memory
+           might be modified."
+       ::= { hrStorageEntry 5 }
+
+   hrStorageUsed OBJECT-TYPE
+       SYNTAX     Integer32 (0..2147483647)
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+           "The amount of the storage represented by this entry
+           that is allocated, in units of
+           hrStorageAllocationUnits."
+       ::= { hrStorageEntry 6 }	   
+	   
+
+   hrMIBGroups      OBJECT IDENTIFIER ::= { hrMIBAdminInfo 3 }
+   
+         hrSystemGroup OBJECT-GROUP
+           OBJECTS {
+               hrSystemUptime, hrSystemDate            
+           }
+           STATUS current
+           DESCRIPTION
+               "The Host Resources System Group."
+           ::= { hrMIBGroups 1 }
+		   
+		 hrStorageGroup OBJECT-GROUP
+           OBJECTS {
+               hrMemorySize, hrStorageIndex, hrStorageType,
+               hrStorageDescr, hrStorageSize, hrStorageUsed
+           }
+           STATUS current
+           DESCRIPTION
+               "The Host Resources Storage Group."
+           ::= { hrMIBGroups 2 }
+		   
+   
+   END
+   
