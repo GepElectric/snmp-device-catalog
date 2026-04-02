@@ -19,5 +19,12 @@
     "model": "Windows 10",
     "description": "Microsoft Windows 10",
     "updated": "2026-04-02"
+  },
+  {
+    "slug": "hopf-6890",
+    "vendor": "Hopf",
+    "model": "6890",
+    "description": "Hopf 6890",
+    "updated": "2026-04-02"
   }
 ]
