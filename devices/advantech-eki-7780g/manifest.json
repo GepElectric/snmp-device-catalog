@@ -1,0 +1,91 @@
+{
+  "vendor": "Advantech",
+  "model": "EKI-7780G",
+  "description": "Advantech EKI-7780G",
+  "default_community": "public",
+  "default_port_count": 0,
+  "snmp_version": "v2c",
+  "signal_profile_name": "Advantech",
+  "signals": [
+    {
+      "key": "ifOperStatus",
+      "display_name": "Operational Status",
+      "symbol": "ifOperStatus",
+      "base_oid": "1.3.6.1.2.1.2.2.1.8",
+      "data_type": "integer",
+      "access": "read-only",
+      "description": "Link state from IF-MIB::ifOperStatus.",
+      "source": "builtin",
+      "is_port_signal": true,
+      "scope": "indexed",
+      "indexed": true,
+      "instance_start": 1,
+      "instance_count": 8
+    },
+    {
+      "key": "stpPortStatus",
+      "display_name": "stpPortStatus",
+      "symbol": "stpPortStatus",
+      "base_oid": "1.3.6.1.4.1.10297.202.7000.3.8.8.1.10",
+      "data_type": "INTEGER",
+      "access": "read-only",
+      "description": "The port status",
+      "source": "mib",
+      "is_port_signal": true,
+      "scope": "indexed",
+      "indexed": true,
+      "instance_start": 1,
+      "instance_count": 8
+    },
+    {
+      "key": "ipAddress",
+      "display_name": "ipAddress",
+      "symbol": "ipAddress",
+      "base_oid": "1.3.6.1.4.1.10297.202.7000.1.1.5",
+      "data_type": "IpAddress",
+      "access": "read-only",
+      "description": "IP address of the switch.",
+      "source": "mib",
+      "is_port_signal": false,
+      "scope": "scalar",
+      "indexed": false,
+      "instance_start": 1,
+      "instance_count": 1
+    },
+    {
+      "key": "cpuUsage",
+      "display_name": "cpuUsage",
+      "symbol": "cpuUsage",
+      "base_oid": "1.3.6.1.4.1.10297.202.7000.1.1.17",
+      "data_type": "DisplayString",
+      "access": "read-only",
+      "description": "CPU usage of the switch.",
+      "source": "mib",
+      "is_port_signal": false,
+      "scope": "scalar",
+      "indexed": false,
+      "instance_start": 1,
+      "instance_count": 1
+    },
+    {
+      "key": "memoryUsage",
+      "display_name": "memoryUsage",
+      "symbol": "memoryUsage",
+      "base_oid": "1.3.6.1.4.1.10297.202.7000.1.1.18",
+      "data_type": "DisplayString",
+      "access": "read-only",
+      "description": "Memory usage of the switch.",
+      "source": "mib",
+      "is_port_signal": false,
+      "scope": "scalar",
+      "indexed": false,
+      "instance_start": 1,
+      "instance_count": 1
+    }
+  ],
+  "mib_filenames": [
+    "ADVANTECH-EKI-PRONEER-MIB_1_01.mib",
+    "RFC1213.mib",
+    "advantech-common-mib.mib"
+  ]
+}
