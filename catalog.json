@@ -5,12 +5,5 @@
     "model": "S7-1515",
     "description": "Siemens S7-1515",
     "updated": "2026-03-27"
-  },
-  {
-    "slug": "hopf-6890",
-    "vendor": "Hopf",
-    "model": "6890",
-    "description": "Hopf 6890",
-    "updated": "2026-04-02"
   }
 ]
