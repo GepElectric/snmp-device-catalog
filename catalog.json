@@ -19,5 +19,12 @@
     "model": "SICAM A8031",
     "description": "SIEMENS SICAM A8031",
     "updated": "2026-03-30"
+  },
+  {
+    "slug": "hopf-6890",
+    "vendor": "Hopf",
+    "model": "6890",
+    "description": "Hopf 6890",
+    "updated": "2026-04-02"
   }
 ]
