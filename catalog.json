@@ -12,5 +12,12 @@
     "model": "SICAM A8031",
     "description": "SIEMENS SICAM A8031",
     "updated": "2026-04-02"
+  },
+  {
+    "slug": "microsoft-windows-10",
+    "vendor": "Microsoft",
+    "model": "Windows 10",
+    "description": "Microsoft Windows 10",
+    "updated": "2026-04-02"
   }
 ]
